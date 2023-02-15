@@ -22,15 +22,14 @@ public class ProducerApp {
 
         Producer producer = new KafkaProducer<String, String>(config);
 
+        System.out.println("Adicionador de Tarefas");
         while (true) {
-            System.out.println("Data what will send to Kafka : ");
-            String key = read.nextLine();
-            ProducerRecord<String, String> rec = new ProducerRecord<String, String>("search", key);
+            System.out.println("Título da tarefa: ");
+            String titulo = read.nextLine();
+            System.out.println("Descrição da tarefa: ");
+            String descricao = read.nextLine();
+            ProducerRecord<String, String> rec = new ProducerRecord<String, String>("tasks", String.format("{\"titulo\": \"%s\",\"descricao\": \"%s\"}",titulo,descricao));
             producer.send(rec);
-//            producer.flush();
         }
-
-//        producer.close();
-
     }
 }

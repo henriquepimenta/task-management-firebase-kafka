@@ -19,18 +19,18 @@ public class ConsumerApp {
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, new StringDeserializer().getClass().getName());
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, new StringDeserializer().getClass().getName());
-        config.put(ConsumerConfig.GROUP_ID_CONFIG, "bigdataTeam");
-        config.put(ConsumerConfig.CLIENT_ID_CONFIG, "sampleConsumer");
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, "tasksTeam");
+        config.put(ConsumerConfig.CLIENT_ID_CONFIG, "tasksConsumer");
 
         KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<String, String>(config);
 
-        kafkaConsumer.subscribe(Arrays.asList("search"));
+        kafkaConsumer.subscribe(Arrays.asList("tasks"));
 
         while (true) {
             ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ZERO);
 
             for (ConsumerRecord<String, String> rec : records){
-                System.out.println(rec.value());
+                System.out.println("Tarefa recebida: " + rec.value());
                 Firebase.post(rec.value());
             }
         }
